@@ -292,7 +292,7 @@ export default function App() {
                   <p className="text-blue-100 font-medium mb-2">RESULTADOS REAIS</p>
                   <p className="text-5xl font-extrabold mb-2">até 70%</p>
                   <p className="text-xl font-bold mb-6">Mais Barato</p>
-                  <p className="text-sm text-blue-100 opacity-90">Em relação a pacotes tradicionais.</p>
+                  <p className="text-sm text-blue-100 opacity-90">*em relação a pacotes tradicionais.</p>
                 </div>
                 {/* Decorative circles */}
                 <div className="absolute top-0 left-0 w-32 h-32 bg-blue-500 rounded-full blur-2xl -ml-16 -mt-16"></div>
