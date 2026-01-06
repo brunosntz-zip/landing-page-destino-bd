@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Analytics } from "@vercel/analytics/react";
-import logoBD from './assets/logoBD.png';
+import logoBD from './assets/logo-oficial.png';
 import imgBuenosAires from './assets/buenosaires.webp';
 import imgMaragogi from './assets/maragogi.jpg';
 import imgSantiago from './assets/santiago.jpg';
