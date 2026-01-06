@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Analytics } from "@vercel/analytics/react"; // <--- Importação corrigida
-import logoBD from './assets/logo-white-svg.svg';
+import { Analytics } from "@vercel/analytics/react";
+import logoBD from './assets/favicon.png';
 import imgBuenosAires from './assets/buenosaires.webp';
 import imgMaragogi from './assets/maragogi.jpg';
 import imgSantiago from './assets/santiago.jpg';
@@ -445,7 +445,7 @@ export default function App() {
                   </div>
                   <div>
                     <p className="text-xs text-blue-200">E-mail</p>
-                    <p className="font-bold text-base group-hover:text-blue-300 transition-colors">contato@destinobd.com.br</p>
+                    <p className="font-bold text-base group-hover:text-blue-300 transition-colors">destinobd@gmail.com</p>
                   </div>
                 </div>
               </div>
