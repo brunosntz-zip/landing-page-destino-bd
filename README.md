@@ -1,73 +1,43 @@
-# React + TypeScript + Vite
+# ✈️ Destino B&D - Travel Agency Landing Page
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> Uma Landing Page de alta conversão desenvolvida para a agência de viagens **Destino B&D**, focada em experiência do usuário (UX), responsividade e integração direta com WhatsApp para captação de leads.
 
-Currently, two official plugins are available:
+![Status do Projeto](https://img.shields.io/badge/Status-Finalizado-green)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 💻 Sobre o Projeto
 
-## React Compiler
+Este projeto é uma **Single Page Application (SPA)** moderna construída para apresentar pacotes de viagem personalizados. O objetivo principal é a **conversão**: transformar visitantes em contatos no WhatsApp da agência de forma rápida e contextualizada.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 🚀 Funcionalidades Principais
 
-## Expanding the ESLint configuration
+* **⚡ Performance:** Construído com **Vite**, garantindo carregamento instantâneo.
+* **📱 Design Responsivo:** Layout fluido que se adapta perfeitamente a celulares (Mobile First) e desktops, utilizando **Tailwind CSS**.
+* **💬 Integração Inteligente com WhatsApp (Growth Hacking):**
+    * **Botões Contextuais:** Ao clicar em um pacote (ex: "Bangkok"), o usuário é redirecionado para o WhatsApp com uma mensagem pré-formatada citando aquele destino específico.
+    * **Formulário de Leads:** Captura Nome, Telefone e Interesses, processa os dados e inicia uma conversa automática no WhatsApp com todas as informações estruturadas para o vendedor.
+* **🎨 UI Moderna:** Uso de glassmorphism, gradientes e ícones **Lucide React** para uma estética premium.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠️ Tecnologias Utilizadas
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+* **[React](https://reactjs.org/):** Biblioteca principal para construção da interface.
+* **[TypeScript](https://www.typescriptlang.org/) (TSX):** Para maior segurança e tipagem do código.
+* **[Tailwind CSS](https://tailwindcss.com/):** Framework de utilitários para estilização rápida e responsiva.
+* **[Vite](https://vitejs.dev/):** Build tool de próxima geração.
+* **[Lucide React](https://lucide.dev/):** Biblioteca de ícones leves e consistentes.
+* **[Vercel](https://vercel.com/):** Plataforma de hospedagem e deploy contínuo (CI/CD).
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 📂 Estrutura do Projeto
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+```bash
+minha-landing-page/
+├── public/              # Arquivos estáticos
+├── src/
+│   ├── assets/          # Imagens e vetores (Logos, Fotos dos Destinos)
+│   ├── App.tsx          # Componente principal e lógica de negócios
+│   ├── index.css        # Configuração das diretivas do Tailwind
+│   └── main.tsx         # Ponto de entrada da aplicação
+├── tailwind.config.js   # Configuração de temas e caminhos do Tailwind
+└── vite.config.ts       # Configuração do bundler
