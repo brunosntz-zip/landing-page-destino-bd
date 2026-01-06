@@ -438,7 +438,7 @@ export default function App() {
                 {/* Card Email - NOVO e CLICÁVEL */}
                 <div 
                   className="flex items-center gap-4 group cursor-pointer"
-                  onClick={() => window.location.href = 'mailto:contato@destinobd.com.br'}
+                  onClick={() => window.location.href = 'mailto:destinobd@gmail.com.br'}
                 >
                   <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center group-hover:bg-blue-500 transition-colors">
                     <Mail size={20} className="text-blue-300 group-hover:text-white" />
