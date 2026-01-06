@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Analytics } from "@vercel/analytics/next",
+import { Analytics } from "@vercel/analytics/react"; // <--- Importação corrigida
 import logoBD from './assets/logo-white-svg.svg';
 import imgBuenosAires from './assets/buenosaires.webp';
 import imgMaragogi from './assets/maragogi.jpg';
@@ -597,6 +597,7 @@ export default function App() {
           </div>
         </div>
       </footer>
+      <Analytics />
     </div>
   );
 }
