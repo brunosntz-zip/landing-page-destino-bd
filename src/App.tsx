@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import logoBD from './assets/logo-white-svg.svg';
-// Seus imports de imagens (MANTIDOS)
 import imgBuenosAires from './assets/buenosaires.webp';
 import imgMaragogi from './assets/maragogi.jpg';
 import imgSantiago from './assets/santiago.jpg';
