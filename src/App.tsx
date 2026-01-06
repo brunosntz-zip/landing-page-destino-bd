@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Analytics } from "@vercel/analytics/next",
 import logoBD from './assets/logo-white-svg.svg';
 import imgBuenosAires from './assets/buenosaires.webp';
 import imgMaragogi from './assets/maragogi.jpg';
@@ -23,7 +24,7 @@ import {
   CheckCircle,
   Gem,
   Calendar,
-  MessageCircle // <--- Importei esse ícone para o botão de orçar
+  MessageCircle
 } from 'lucide-react';
 
 export default function App() {
@@ -114,7 +115,7 @@ export default function App() {
       {
         id: 5,
         title: 'Buenos Aires',
-        tag: 'Ótimo Custo-Benefício',
+        tag: 'Melhor Custo-Benefício',
         image: imgBuenosAires,
         days: '4 dias',
         rating: 4.8,
@@ -123,7 +124,7 @@ export default function App() {
       {
         id: 6,
         title: 'Santiago do Chile',
-        tag: 'Neve Próxima e Acessível',
+        tag: 'Neve Acessível',
         image: imgSantiago,
         days: '5 dias',
         rating: 4.7,
@@ -156,8 +157,11 @@ export default function App() {
       <nav className="fixed w-full z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            {/* Logo */}
-            <div className="flex-shrink-0 flex items-center gap-2 cursor-pointer group">
+            {/* Logo com Scroll To Top */}
+            <div 
+              className="flex-shrink-0 flex items-center gap-2 cursor-pointer group"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
               <img 
                 src={logoBD} 
                 alt="Logo Destino B&D" 
@@ -377,7 +381,6 @@ export default function App() {
                           <Zap size={14} className="fill-current" /> Sob Medida
                         </span>
                       </div>
-                      {/* BOTÃO ALTERADO AQUI */}
                       <button 
                         onClick={() => handlePackageClick(destination.title)} 
                         className="px-5 py-2.5 bg-gray-900 text-white rounded-lg text-sm font-bold hover:bg-blue-600 transition-colors shadow-lg shadow-gray-900/10 flex items-center gap-2"
