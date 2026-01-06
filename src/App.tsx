@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Analytics } from "@vercel/analytics/react";
-import logoBD from './assets/logo-oficial.png';
+
 import imgBuenosAires from './assets/buenosaires.webp';
 import imgMaragogi from './assets/maragogi.jpg';
 import imgSantiago from './assets/santiago.jpg';
@@ -163,10 +163,10 @@ export default function App() {
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
               <img 
-                src={logoBD} 
-                alt="Logo Destino B&D" 
-                className="h-10 w-auto object-contain hover:opacity-90 transition-opacity" 
-              />
+  src="/logo-oficial.png" 
+  alt="Logo Destino B&D" 
+  className="h-10 w-auto object-contain hover:opacity-90 transition-opacity" 
+/>
               <span className="font-bold text-xl tracking-tight text-gray-900">
                 Destino <span className="text-blue-600">B&D</span>
               </span>
@@ -541,10 +541,10 @@ export default function App() {
               <div className="flex items-center gap-2 mb-4 text-white">
                 {/* LOGO NO FOOTER TBM */}
                 <img 
-                  src={logoBD} 
-                  alt="Logo Destino B&D" 
-                  className="h-8 w-auto object-contain" 
-                />
+  src="/logo-oficial.png" 
+  alt="Logo Destino B&D" 
+  className="h-8 w-auto object-contain" 
+/>
                 <span className="font-bold text-xl">Destino B&D</span>
               </div>
               <p className="text-sm leading-relaxed mb-4">
