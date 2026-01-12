@@ -490,7 +490,7 @@ export default function App() {
                   </div>
                   <div>
                     <p className="text-xs text-blue-200">E-mail</p>
-                    <p className="font-bold text-base group-hover:text-blue-300 transition-colors">destinobd@gmail.com</p>
+                    <p className="font-bold text-base group-hover:text-blue-300 transition-colors">destinobed@outlook.com</p>
                   </div>
                 </div>
               </div>
