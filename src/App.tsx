@@ -12,7 +12,7 @@ import imgParis from './assets/paris.jpg';
 import PrivacyPolicy from './PrivacyPolicy';
 import TermsOfUse from './TermsOfUse';
 import FAQ from './FAQ';
-import FloatingWhatsApp from './FloatingWhatsApp'; // <--- O botão mágico importado aqui
+import FloatingWhatsApp from './FloatingWhatsapp';
 
 import { 
   Menu, 
@@ -483,7 +483,7 @@ export default function App() {
                 {/* Botão de Email direto */}
                 <div 
                   className="flex items-center gap-4 group cursor-pointer"
-                  onClick={() => window.location.href = 'mailto:destinobd@gmail.com.br'}
+                  onClick={() => window.location.href = 'mailto:destinobed@outlook.com'}
                 >
                   <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center group-hover:bg-blue-500 transition-colors">
                     <Mail size={20} className="text-blue-300 group-hover:text-white" />
