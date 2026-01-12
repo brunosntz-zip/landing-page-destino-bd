@@ -8,6 +8,12 @@ import imgBangkok from './assets/bangkok.jpg';
 import imgPuntaCana from './assets/puntacana.jpg';
 import imgParis from './assets/paris.jpg';
 
+// -- MINHAS PÁGINAS EXTRAS --
+import PrivacyPolicy from './PrivacyPolicy';
+import TermsOfUse from './TermsOfUse';
+import FAQ from './FAQ';
+import FloatingWhatsApp from './FloatingWhatsApp'; // <--- O botão mágico importado aqui
+
 import { 
   Menu, 
   X, 
@@ -28,11 +34,16 @@ import {
 } from 'lucide-react';
 
 export default function App() {
+  // Controle básico da UI (menu mobile e status de envio do form)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [formStatus, setFormStatus] = useState('idle');
   const [activeTab, setActiveTab] = useState('oportunidades'); 
+  
+  // -- SISTEMA DE NAVEGAÇÃO SPA (Single Page Application) --
+  // Ao invés de usar rotas complexas, eu uso esse estado pra trocar o "miolo" da página
+  const [currentScreen, setCurrentScreen] = useState<'home' | 'privacy' | 'terms' | 'faq'>('home');
 
-  // --- STATES PARA O FORMULÁRIO ---
+  // -- DADOS DO FORMULÁRIO DE CAPTURA --
   const [formData, setFormData] = useState({
     nome: '',
     whatsapp: '',
@@ -40,38 +51,42 @@ export default function App() {
     desejo: ''
   });
 
-  const PHONE_NUMBER = '5511991805144'; // Seu número comercial
+  const PHONE_NUMBER = '5511991805144'; // Número Mestre da Destino B&D
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
+  // Atualiza o estado conforme o usuário digita
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // --- 1. LÓGICA DO FORMULÁRIO -> WHATSAPP ---
+  // -- FUNÇÃO: Enviar Lead pro WhatsApp --
   const handleSubmit = (e: any) => {
     e.preventDefault();
     setFormStatus('submitting');
 
+    // Timeout fake pra dar uma sensação de "processando" pro usuário (UX)
     setTimeout(() => {
       const text = `*Olá, Destino B&D!* 👋\n\nVim pelo formulário do site.\n\n*Nome:* ${formData.nome}\n*WhatsApp:* ${formData.whatsapp}\n*Estilo:* ${formData.estilo}\n*Desejo:* ${formData.desejo}`;
       const url = `https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(text)}`;
       window.open(url, '_blank');
 
       setFormStatus('success');
+      // Reseta o form pra não ficar dados velhos lá
       setFormData({ nome: '', whatsapp: '', estilo: 'Quero algo 100% personalizado', desejo: '' });
       setTimeout(() => setFormStatus('idle'), 3000);
     }, 1000);
   };
 
-  // --- 2. LÓGICA DO CLIQUE NO PACOTE ---
+  // -- FUNÇÃO: Atalho dos Cards de Destino --
   const handlePackageClick = (destinationTitle: string) => {
     const text = `*Opa!* Gostei do pacote *${destinationTitle}* que vi no site e quero solicitar um orçamento.`;
     const url = `https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
   }
 
+  // -- BANCO DE DADOS (Mockado por enquanto) --
   const destinationsData = {
     populares: [
       {
@@ -133,6 +148,7 @@ export default function App() {
     ]
   };
 
+  // Diferenciais competitivos (Ícones + Texto)
   const features = [
     {
       icon: <TrendingUp className="w-8 h-8 text-blue-500" />,
@@ -151,28 +167,53 @@ export default function App() {
     }
   ];
 
+  // =================================================================
+  // RENDERIZAÇÃO CONDICIONAL (O "Roteador" manual)
+  // Se a variável 'currentScreen' mudar, o componente retornado muda.
+  // =================================================================
+  
+  if (currentScreen === 'privacy') {
+    return <PrivacyPolicy onBack={() => setCurrentScreen('home')} />;
+  }
+
+  if (currentScreen === 'terms') {
+    return <TermsOfUse onBack={() => setCurrentScreen('home')} />;
+  }
+
+  if (currentScreen === 'faq') {
+    return <FAQ onBack={() => setCurrentScreen('home')} />;
+  }
+
+  // =================================================================
+  // TELA PRINCIPAL (HOME)
+  // =================================================================
   return (
     <div className="min-h-screen font-sans text-gray-800 bg-white">
-      {/* Navigation */}
+      
+      {/* BOTÃO DO ZAP FLUTUANTE (Só aparece na Home) */}
+      <FloatingWhatsApp />
+
+      {/* --- MENU DE NAVEGAÇÃO --- */}
       <nav className="fixed w-full z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            {/* Logo com Scroll To Top */}
+            
+            {/* Logo + Clique para voltar ao topo */}
             <div 
               className="flex-shrink-0 flex items-center gap-2 cursor-pointer group"
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
               <img 
-  src={logoBD} 
-  alt="Logo Destino B&D" 
-  className="h-10 w-auto object-contain hover:opacity-90 transition-opacity" 
-/>
+                src={logoBD} 
+                alt="Logo Destino B&D" 
+                className="h-10 w-auto object-contain hover:opacity-90 transition-opacity" 
+              />
               <span className="font-bold text-xl tracking-tight text-gray-900">
                 Destino <span className="text-blue-600">B&D</span>
               </span>
             </div>
 
-            {/* Desktop Menu */}
+            {/* Links Desktop */}
             <div className="hidden md:flex space-x-8 items-center">
               <a href="#metodo" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">Nosso Método</a>
               <a href="#destinos" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">Inspirações</a>
@@ -181,7 +222,7 @@ export default function App() {
               </a>
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* Menu Mobile (Hamburguer) */}
             <div className="md:hidden flex items-center">
               <button onClick={toggleMenu} className="text-gray-600 hover:text-blue-600 focus:outline-none p-2">
                 {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -190,7 +231,7 @@ export default function App() {
           </div>
         </div>
 
-        {/* Mobile Menu Dropdown */}
+        {/* Dropdown do Mobile */}
         {isMenuOpen && (
           <div className="md:hidden bg-white border-t border-gray-100 absolute w-full shadow-xl z-50">
             <div className="px-4 pt-2 pb-6 space-y-2">
@@ -204,7 +245,7 @@ export default function App() {
         )}
       </nav>
 
-      {/* Hero Section */}
+      {/* --- HERO SECTION (A promessa principal) --- */}
       <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
@@ -239,7 +280,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* Value Proposition / Method Section */}
+      {/* --- DIFERENCIAIS (Por que comprar com a gente?) --- */}
       <section id="metodo" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -249,6 +290,7 @@ export default function App() {
             </p>
           </div>
           
+          {/* Cards de Vantagens */}
           <div className="grid md:grid-cols-3 gap-8">
             {features.map((feature, idx) => (
               <div key={idx} className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group">
@@ -264,7 +306,7 @@ export default function App() {
             ))}
           </div>
 
-          {/* Comparison Block */}
+          {/* Comparativo Matador: Agência X B&D */}
           <div className="mt-16 bg-white rounded-3xl p-8 md:p-12 shadow-lg border border-blue-100">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
@@ -294,7 +336,7 @@ export default function App() {
                   <p className="text-xl font-bold mb-6">Mais Barato</p>
                   <p className="text-sm text-blue-100 opacity-90">*em relação a pacotes tradicionais.</p>
                 </div>
-                {/* Decorative circles */}
+                {/* Elementos visuais pra dar um tchan */}
                 <div className="absolute top-0 left-0 w-32 h-32 bg-blue-500 rounded-full blur-2xl -ml-16 -mt-16"></div>
                 <div className="absolute bottom-0 right-0 w-32 h-32 bg-cyan-500 rounded-full blur-2xl -mr-16 -mb-16 opacity-50"></div>
               </div>
@@ -303,7 +345,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* Destinations Section with TABS */}
+      {/* --- VITRINE DE DESTINOS (Com filtro de abas) --- */}
       <section id="destinos" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center mb-12">
@@ -312,7 +354,7 @@ export default function App() {
               Estes são apenas exemplos. Lembre-se: <strong>nós também criamos a viagem do zero para você.</strong>
             </p>
             
-            {/* Tabs Controller */}
+            {/* Controlador das Abas */}
             <div className="flex p-1 bg-gray-100 rounded-xl max-w-md w-full mx-auto shadow-inner">
               <button
                 onClick={() => setActiveTab('oportunidades')}
@@ -337,15 +379,16 @@ export default function App() {
             </div>
           </div>
 
+          {/* Grid de Cards dos Destinos */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {destinationsData[activeTab as keyof typeof destinationsData].map((destination: any) => (
               <div key={destination.id} className="group relative bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col h-full">
-                {/* Rating Badge */}
+                {/* Badge de Nota */}
                 <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1 z-10 text-xs font-bold text-gray-800 shadow-sm">
                   <Star size={14} className="text-yellow-400 fill-current" /> {destination.rating}
                 </div>
                 
-                {/* Image */}
+                {/* Foto do Local */}
                 <div className="h-64 overflow-hidden relative shrink-0">
                   <img 
                     src={destination.image} 
@@ -359,7 +402,7 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Content */}
+                {/* Informações do Pacote */}
                 <div className="p-6 flex flex-col flex-grow">
                   <div className="mb-4">
                     <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{destination.title}</h3>
@@ -397,13 +440,15 @@ export default function App() {
         </div>
       </section>
 
-      {/* CTA / Contact Section */}
+      {/* --- CONTATO E FORMULÁRIO --- */}
       <section id="contato" className="py-20 bg-blue-900 text-white relative overflow-hidden">
+        {/* Background blobs decorativos (efeito visual) */}
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-blue-800 opacity-50 blur-3xl"></div>
         <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-blue-600 opacity-30 blur-3xl"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Texto de Apoio e Contatos Diretos */}
             <div>
               <span className="text-blue-300 font-bold tracking-wider text-sm uppercase mb-2 block">ATENDIMENTO PERSONALIZADO</span>
               <h2 className="text-4xl font-bold mb-6">Você sonha, nós viabilizamos!</h2>
@@ -421,7 +466,7 @@ export default function App() {
               </div>
 
               <div className="space-y-6">
-                {/* Card Telefone - CLICÁVEL */}
+                {/* Botão de WhatsApp direto */}
                 <div 
                   className="flex items-center gap-4 group cursor-pointer"
                   onClick={() => window.open(`https://wa.me/${PHONE_NUMBER}`, '_blank')}
@@ -435,7 +480,7 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Card Email - NOVO e CLICÁVEL */}
+                {/* Botão de Email direto */}
                 <div 
                   className="flex items-center gap-4 group cursor-pointer"
                   onClick={() => window.location.href = 'mailto:destinobd@gmail.com.br'}
@@ -451,6 +496,7 @@ export default function App() {
               </div>
             </div>
 
+            {/* O Formulário em si */}
             <div className="bg-white text-gray-900 p-8 rounded-2xl shadow-2xl">
               {formStatus === 'success' ? (
                 <div className="text-center py-12">
@@ -533,18 +579,17 @@ export default function App() {
         </div>
       </section>
 
-      {/* Footer */}
+      {/* --- RODAPÉ --- */}
       <footer className="bg-gray-900 text-gray-400 py-12 border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8 mb-12">
             <div className="col-span-1 md:col-span-1">
               <div className="flex items-center gap-2 mb-4 text-white">
-                {/* LOGO NO FOOTER TBM */}
                 <img 
-  src={logoBD} 
-  alt="Logo Destino B&D" 
-  className="h-10 w-auto object-contain hover:opacity-90 transition-opacity" 
-/>
+                  src={logoBD} 
+                  alt="Logo Destino B&D" 
+                  className="h-10 w-auto object-contain hover:opacity-90 transition-opacity" 
+                />
                 <span className="font-bold text-xl">Destino B&D</span>
               </div>
               <p className="text-sm leading-relaxed mb-4">
@@ -561,19 +606,40 @@ export default function App() {
               </ul>
             </div>
 
+            {/* Aqui controlamos a troca de telas do Rodapé */}
             <div>
               <h4 className="text-white font-bold mb-4 uppercase text-sm tracking-wider">Suporte</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-blue-500 transition-colors">FAQ</a></li>
-                <li><a href="#" className="hover:text-blue-500 transition-colors">Política de Privacidade</a></li>
-                <li><a href="#" className="hover:text-blue-500 transition-colors">Termos de Uso</a></li>
+                <li>
+                  <button 
+                    onClick={() => setCurrentScreen('faq')} 
+                    className="hover:text-blue-500 transition-colors text-left"
+                  >
+                    FAQ
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => setCurrentScreen('privacy')} 
+                    className="hover:text-blue-500 transition-colors text-left"
+                  >
+                    Política de Privacidade
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => setCurrentScreen('terms')} 
+                    className="hover:text-blue-500 transition-colors text-left"
+                  >
+                    Termos de Uso
+                  </button>
+                </li>
               </ul>
             </div>
 
             <div>
               <h4 className="text-white font-bold mb-4 uppercase text-sm tracking-wider">Social</h4>
               <div className="flex space-x-4">
-                {/* INSTAGRAM AGORA FUNCIONAL */}
                 <a 
                   href="https://instagram.com/destinobd" 
                   target="_blank" 
@@ -589,7 +655,6 @@ export default function App() {
           <div className="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
             <div className="flex flex-col md:flex-row gap-4 items-center">
                <p>© 2026 Destino B&D. Todos os direitos reservados.</p>
-               {/* CNPJ Section */}
                <span className="hidden md:block text-gray-700">|</span>
                <p className="font-mono">CNPJ: 58.046.864/0001-24</p>
             </div>
