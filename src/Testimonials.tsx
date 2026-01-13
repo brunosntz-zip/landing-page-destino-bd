@@ -10,7 +10,7 @@ const feedbacks = [
     text: "Queria agradecer a Destino B&D que cuidou de tudo na minha viagem pra República Dominicana! Queria agradecer pois não é o primeiro passeio que fecho e todos foram muito atenciosos e prestaram todo o Suporte!",
     stars: 5,
     image: null,
-    link: "https://www.instagram.com/s/aGlnaGxpZ2h0OjE3OTUwOTU3MjgwOTU1ODg4?story_media_id=3765772437624372725&igsh=MTNnaWV2cXFxa21sbQ=="
+    link: "https://www.instagram.com/stories/highlights/17950957280955888/"
   },
   {
     id: 2,
@@ -19,7 +19,7 @@ const feedbacks = [
     text: "Queria agradecer meu amigo Daniel e a Destino B&D, ele me ajudou muito na minha trip com valores ótimos de passagem aéreas, podem chamar ele que é sucesso ❤️",
     stars: 5,
     image: null,
-    link: "https://www.instagram.com/s/aGlnaGxpZ2h0OjE3OTUwOTU3MjgwOTU1ODg4?story_media_id=3709259647326018302&igsh=MTNnaWV2cXFxa21sbQ==" // <--- CORRIGIDO AQUI (Aspas fechadas)
+    link: "https://www.instagram.com/stories/highlights/17950957280955888/"
   },
   {
     id: 3,
@@ -28,7 +28,7 @@ const feedbacks = [
     text: "Queria agradecer a Destino B&D, por ter ajudado a gente a realizar nosso sonho e quem quiser, dá uma seguida no insta deles. Galera boa! Dani, obrigado pelo suporte!",
     stars: 5,
     image: null,
-    link: "https://www.instagram.com/s/aGlnaGxpZ2h0OjE3OTUwOTU3MjgwOTU1ODg4?story_media_id=3699066020862419468&igsh=MTNnaWV2cXFxa21sbQ=="
+    link: "https://www.instagram.com/stories/highlights/17950957280955888/"
   },
   {
     id: 4,
@@ -37,7 +37,7 @@ const feedbacks = [
     text: "Finalizando uma viagem incrível em um lugar paradisíaco, e para isso, contamos com toda ajuda da @destinobd que deu todo o suporte antes e durante nossa viagem💙",
     stars: 5,
     image: null,
-    link: "https://www.instagram.com/s/aGlnaGxpZ2h0OjE3OTUwOTU3MjgwOTU1ODg4?story_media_id=3699066020862419468&igsh=MTNnaWV2cXFxa21sbQ=="
+    link: "https://www.instagram.com/stories/highlights/17950957280955888/"
   }
 ];
 
@@ -109,7 +109,7 @@ export default function Testimonials() {
         {/* Botão do Instagram */}
         <div className="text-center mt-10">
           <a 
-            href="https://instagram.com/destinobd" 
+            href="https://www.instagram.com/stories/highlights/17950957280955888/" 
             target="_blank" 
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-bold text-sm shadow-lg hover:shadow-pink-500/30 hover:-translate-y-1 transition-all"
