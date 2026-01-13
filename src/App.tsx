@@ -1,18 +1,21 @@
 import { useState } from 'react';
 import { Analytics } from "@vercel/analytics/react";
 import logoBD from './assets/logo-final.png';
-import imgBuenosAires from './assets/buenosaires.webp';
+
+// --- IMPORTAÇÃO DAS IMAGENS DOS DESTINOS ---
 import imgMaragogi from './assets/maragogi.jpg';
-import imgSantiago from './assets/santiago.jpg';
-import imgBangkok from './assets/bangkok.jpg';
+import imgNatal from './assets/natal.jpg';           // .jpg
+import imgSanAndres from './assets/sanandres.jpg';   // .jpg
+import imgOrlando from './assets/orlando.jpeg';      // .jpeg (Conforme sua instrução)
+import imgPortoSeguro from './assets/portoseguro.jpg'; // .jpg
 import imgPuntaCana from './assets/puntacana.jpg';
-import imgParis from './assets/paris.jpg';
 
 // -- MINHAS PÁGINAS EXTRAS --
 import PrivacyPolicy from './PrivacyPolicy';
 import TermsOfUse from './TermsOfUse';
 import FAQ from './FAQ';
 import FloatingWhatsApp from './FloatingWhatsapp';
+import Testimonials from './Testimonials';
 
 import { 
   Menu, 
@@ -30,125 +33,126 @@ import {
   CheckCircle,
   Gem,
   Calendar,
-  MessageCircle
+  MessageCircle,
+  Users,
+  Clock
 } from 'lucide-react';
 
 export default function App() {
-  // Controle básico da UI (menu mobile e status de envio do form)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [formStatus, setFormStatus] = useState('idle');
-  const [activeTab, setActiveTab] = useState('oportunidades'); 
-  
-  // -- SISTEMA DE NAVEGAÇÃO SPA (Single Page Application) --
-  // Ao invés de usar rotas complexas, eu uso esse estado pra trocar o "miolo" da página
   const [currentScreen, setCurrentScreen] = useState<'home' | 'privacy' | 'terms' | 'faq'>('home');
 
   // -- DADOS DO FORMULÁRIO DE CAPTURA --
   const [formData, setFormData] = useState({
     nome: '',
     whatsapp: '',
-    estilo: 'Quero algo 100% personalizado',
-    desejo: ''
+    pessoas: '',       
+    origem: '',        
+    destino: '',       
+    datas: '',         
+    prazo: 'Agora',    
+    obs: ''            
   });
 
-  const PHONE_NUMBER = '5511991805144'; // Número Mestre da Destino B&D
+  const PHONE_NUMBER = '5511991805144'; 
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  // Atualiza o estado conforme o usuário digita
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // -- FUNÇÃO: Enviar Lead pro WhatsApp --
   const handleSubmit = (e: any) => {
     e.preventDefault();
     setFormStatus('submitting');
 
-    // Timeout fake pra dar uma sensação de "processando" pro usuário (UX)
     setTimeout(() => {
-      const text = `*Olá, Destino B&D!* 👋\n\nVim pelo formulário do site.\n\n*Nome:* ${formData.nome}\n*WhatsApp:* ${formData.whatsapp}\n*Estilo:* ${formData.estilo}\n*Desejo:* ${formData.desejo}`;
+      const text = `*Olá, Destino B&D!* 👋\n\nVim pelo formulário do site.\n\n*Nome:* ${formData.nome}\n*WhatsApp:* ${formData.whatsapp}\n*Viajantes:* ${formData.pessoas}\n*Saindo de:* ${formData.origem}\n*Indo para:* ${formData.destino}\n*Datas:* ${formData.datas}\n*Previsão de fechamento:* ${formData.prazo}\n*Obs:* ${formData.obs}`;
+      
       const url = `https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(text)}`;
       window.open(url, '_blank');
 
       setFormStatus('success');
-      // Reseta o form pra não ficar dados velhos lá
-      setFormData({ nome: '', whatsapp: '', estilo: 'Quero algo 100% personalizado', desejo: '' });
+      setFormData({ 
+        nome: '', 
+        whatsapp: '', 
+        pessoas: '', 
+        origem: '', 
+        destino: '', 
+        datas: '', 
+        prazo: 'Agora', 
+        obs: '' 
+      });
       setTimeout(() => setFormStatus('idle'), 3000);
     }, 1000);
   };
 
-  // -- FUNÇÃO: Atalho dos Cards de Destino --
   const handlePackageClick = (destinationTitle: string) => {
-    const text = `*Opa!* Gostei do pacote *${destinationTitle}* que vi no site e quero solicitar um orçamento.`;
+    const text = `*Opa!* Gostei do pacote *${destinationTitle}* que vi no site e quero solicitar uma cotação.`;
     const url = `https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
   }
 
-  // -- BANCO DE DADOS (Mockado por enquanto) --
-  const destinationsData = {
-    populares: [
-      {
-        id: 1,
-        title: 'Bangkok',
-        tag: 'Paraíso Exótico',
-        image: imgBangkok,
-        days: '10 a 14 dias',
-        rating: 5.0,
-        custom: 'Grand Palace, Wat Arun, Phi Phi Islands & Rooftops'
-      },
-      {
-        id: 2,
-        title: 'Punta Cana (All-Inclusive)',
-        tag: 'Campeão de Vendas',
-        image: imgPuntaCana,
-        days: '5 a 7 dias',
-        rating: 4.9,
-        custom: 'Resort All-Inclusive, Ilha Saona & Mar Azul'
-      },
-      {
-        id: 3,
-        title: 'Paris Romântica',
-        tag: 'Clássico Europeu',
-        image: imgParis,
-        days: '7 dias',
-        rating: 4.8,
-        custom: 'Torre Eiffel, Museu do Louvre & Jantar no Sena'
-      }
-    ],
-    oportunidades: [
-      {
-        id: 4,
-        title: 'Maceió & Maragogi',
-        tag: 'Caribe Brasileiro',
-        image: imgMaragogi,
-        days: '5 dias',
-        rating: 4.9,
-        custom: 'Piscinas Naturais, Praia do Gunga'
-      },
-      {
-        id: 5,
-        title: 'Buenos Aires',
-        tag: 'Melhor Custo-Benefício',
-        image: imgBuenosAires,
-        days: '4 dias',
-        rating: 4.8,
-        custom: 'Caminito, Casa Rosada, Show de Tango & Vinhos'
-      },
-      {
-        id: 6,
-        title: 'Santiago do Chile',
-        tag: 'Neve Acessível',
-        image: imgSantiago,
-        days: '5 dias',
-        rating: 4.7,
-        custom: 'Valle Nevado, Vinícolas & Sky Costanera'
-      }
-    ]
-  };
+  // -- LISTA OFICIAL DE DESTINOS --
+  const destinations = [
+    {
+      id: 1,
+      title: 'Maragogi (AL)',
+      tag: 'Caribe Brasileiro',
+      image: imgMaragogi,
+      days: '5 a 7 dias',
+      rating: 4.9,
+      custom: 'Piscinas Naturais, Praia de Antunes & Resort'
+    },
+    {
+      id: 2,
+      title: 'Natal (RN)',
+      tag: 'Nordeste Premium',
+      image: imgNatal, 
+      days: '5 a 7 dias',
+      rating: 4.9,
+      custom: 'Passeio de Buggy, Dunas de Genipabu & Praias'
+    },
+    {
+      id: 3,
+      title: 'San Andrés (Caribe)',
+      tag: 'Mar de 7 Cores',
+      image: imgSanAndres,
+      days: '5 a 7 dias',
+      rating: 4.8,
+      custom: 'Ilha Johnny Cay, Parasail & Mergulho'
+    },
+    {
+      id: 4,
+      title: 'Orlando & Disney',
+      tag: 'Sonho Mágico',
+      image: imgOrlando,
+      days: '7 a 10 dias',
+      rating: 5.0,
+      custom: 'Parques Disney, Universal & Compras'
+    },
+    {
+      id: 5,
+      title: 'Porto Seguro (BA)',
+      tag: 'Diversão & Praia',
+      image: imgPortoSeguro,
+      days: '5 a 7 dias',
+      rating: 4.8,
+      custom: 'Axé Moi, Trancoso & Arraial d\'Ajuda'
+    },
+    {
+      id: 6,
+      title: 'Punta Cana',
+      tag: 'All-Inclusive',
+      image: imgPuntaCana,
+      days: '5 a 7 dias',
+      rating: 4.9,
+      custom: 'Resort All-Inclusive, Ilha Saona & Relax'
+    }
+  ];
 
-  // Diferenciais competitivos (Ícones + Texto)
   const features = [
     {
       icon: <TrendingUp className="w-8 h-8 text-blue-500" />,
@@ -167,38 +171,19 @@ export default function App() {
     }
   ];
 
-  // =================================================================
-  // RENDERIZAÇÃO CONDICIONAL (O "Roteador" manual)
-  // Se a variável 'currentScreen' mudar, o componente retornado muda.
-  // =================================================================
-  
-  if (currentScreen === 'privacy') {
-    return <PrivacyPolicy onBack={() => setCurrentScreen('home')} />;
-  }
+  if (currentScreen === 'privacy') return <PrivacyPolicy onBack={() => setCurrentScreen('home')} />;
+  if (currentScreen === 'terms') return <TermsOfUse onBack={() => setCurrentScreen('home')} />;
+  if (currentScreen === 'faq') return <FAQ onBack={() => setCurrentScreen('home')} />;
 
-  if (currentScreen === 'terms') {
-    return <TermsOfUse onBack={() => setCurrentScreen('home')} />;
-  }
-
-  if (currentScreen === 'faq') {
-    return <FAQ onBack={() => setCurrentScreen('home')} />;
-  }
-
-  // =================================================================
-  // TELA PRINCIPAL (HOME)
-  // =================================================================
   return (
     <div className="min-h-screen font-sans text-gray-800 bg-white">
       
-      {/* BOTÃO DO ZAP FLUTUANTE (Só aparece na Home) */}
       <FloatingWhatsApp />
 
-      {/* --- MENU DE NAVEGAÇÃO --- */}
+      {/* Navbar */}
       <nav className="fixed w-full z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            
-            {/* Logo + Clique para voltar ao topo */}
             <div 
               className="flex-shrink-0 flex items-center gap-2 cursor-pointer group"
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -206,23 +191,22 @@ export default function App() {
               <img 
                 src={logoBD} 
                 alt="Logo Destino B&D" 
-                className="h-10 w-auto object-contain hover:opacity-90 transition-opacity" 
+                className="h-12 w-auto object-contain hover:opacity-90 transition-opacity" 
               />
               <span className="font-bold text-xl tracking-tight text-gray-900">
                 Destino <span className="text-blue-600">B&D</span>
               </span>
             </div>
 
-            {/* Links Desktop */}
             <div className="hidden md:flex space-x-8 items-center">
               <a href="#metodo" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">Nosso Método</a>
-              <a href="#destinos" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">Inspirações</a>
+              <a href="#destinos" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">Populares</a>
+              <a href="#feedbacks" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">Feedbacks</a>
               <a href="#contato" className="bg-blue-600 text-white px-6 py-2.5 rounded-full font-medium hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/30 transform hover:-translate-y-0.5">
                 Criar Meu Roteiro
               </a>
             </div>
 
-            {/* Menu Mobile (Hamburguer) */}
             <div className="md:hidden flex items-center">
               <button onClick={toggleMenu} className="text-gray-600 hover:text-blue-600 focus:outline-none p-2">
                 {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -231,12 +215,12 @@ export default function App() {
           </div>
         </div>
 
-        {/* Dropdown do Mobile */}
         {isMenuOpen && (
           <div className="md:hidden bg-white border-t border-gray-100 absolute w-full shadow-xl z-50">
             <div className="px-4 pt-2 pb-6 space-y-2">
               <a href="#metodo" onClick={toggleMenu} className="block px-3 py-4 text-base font-medium text-gray-700 border-b border-gray-50 hover:text-blue-600">Diferencial</a>
               <a href="#destinos" onClick={toggleMenu} className="block px-3 py-4 text-base font-medium text-gray-700 border-b border-gray-50 hover:text-blue-600">Destinos</a>
+              <a href="#feedbacks" onClick={toggleMenu} className="block px-3 py-4 text-base font-medium text-gray-700 border-b border-gray-50 hover:text-blue-600">Feedbacks</a>
               <a href="#contato" onClick={toggleMenu} className="block w-full text-center mt-4 bg-blue-600 text-white px-6 py-4 rounded-lg font-medium hover:bg-blue-700 shadow-md">
                 Criar Roteiro
               </a>
@@ -245,15 +229,15 @@ export default function App() {
         )}
       </nav>
 
-      {/* --- HERO SECTION (A promessa principal) --- */}
+      {/* Hero Section */}
       <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" 
             alt="Background Travel" 
-            className="w-full h-full object-cover opacity-10"
+            className="w-full h-full object-cover opacity-40"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-white/0 via-white/40 to-white"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-white/0 via-white/20 to-white"></div>
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
@@ -280,7 +264,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* --- DIFERENCIAIS (Por que comprar com a gente?) --- */}
+      {/* Metodo Section */}
       <section id="metodo" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -290,7 +274,6 @@ export default function App() {
             </p>
           </div>
           
-          {/* Cards de Vantagens */}
           <div className="grid md:grid-cols-3 gap-8">
             {features.map((feature, idx) => (
               <div key={idx} className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group">
@@ -306,7 +289,6 @@ export default function App() {
             ))}
           </div>
 
-          {/* Comparativo Matador: Agência X B&D */}
           <div className="mt-16 bg-white rounded-3xl p-8 md:p-12 shadow-lg border border-blue-100">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
@@ -336,7 +318,6 @@ export default function App() {
                   <p className="text-xl font-bold mb-6">Mais Barato</p>
                   <p className="text-sm text-blue-100 opacity-90">*em relação a pacotes tradicionais.</p>
                 </div>
-                {/* Elementos visuais pra dar um tchan */}
                 <div className="absolute top-0 left-0 w-32 h-32 bg-blue-500 rounded-full blur-2xl -ml-16 -mt-16"></div>
                 <div className="absolute bottom-0 right-0 w-32 h-32 bg-cyan-500 rounded-full blur-2xl -mr-16 -mb-16 opacity-50"></div>
               </div>
@@ -345,50 +326,23 @@ export default function App() {
         </div>
       </section>
 
-      {/* --- VITRINE DE DESTINOS (Com filtro de abas) --- */}
+      {/* --- SEÇÃO DE DESTINOS (VITRINE ÚNICA - 6 ITENS) --- */}
       <section id="destinos" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4 text-center">Inspirações para seu Roteiro</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4 text-center">Destinos Mais Procurados</h2>
             <p className="text-gray-500 text-center max-w-xl mb-8">
-              Estes são apenas exemplos. Lembre-se: <strong>nós também criamos a viagem do zero para você.</strong>
+              Estes são os queridinhos do momento. Lembre-se: <strong>nós também criamos a viagem do zero para qualquer outro lugar.</strong>
             </p>
-            
-            {/* Controlador das Abas */}
-            <div className="flex p-1 bg-gray-100 rounded-xl max-w-md w-full mx-auto shadow-inner">
-              <button
-                onClick={() => setActiveTab('oportunidades')}
-                className={`flex-1 py-3 px-6 rounded-lg text-sm font-bold transition-all duration-300 ${
-                  activeTab === 'oportunidades' 
-                    ? 'bg-white text-blue-600 shadow-md transform scale-105' 
-                    : 'text-gray-500 hover:text-gray-700'
-                }`}
-              >
-                Oportunidades
-              </button>
-              <button
-                onClick={() => setActiveTab('populares')}
-                className={`flex-1 py-3 px-6 rounded-lg text-sm font-bold transition-all duration-300 ${
-                  activeTab === 'populares' 
-                    ? 'bg-white text-blue-600 shadow-md transform scale-105' 
-                    : 'text-gray-500 hover:text-gray-700'
-                }`}
-              >
-                Incríveis
-              </button>
-            </div>
           </div>
 
-          {/* Grid de Cards dos Destinos */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {destinationsData[activeTab as keyof typeof destinationsData].map((destination: any) => (
+            {destinations.map((destination: any) => (
               <div key={destination.id} className="group relative bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col h-full">
-                {/* Badge de Nota */}
                 <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1 z-10 text-xs font-bold text-gray-800 shadow-sm">
                   <Star size={14} className="text-yellow-400 fill-current" /> {destination.rating}
                 </div>
                 
-                {/* Foto do Local */}
                 <div className="h-64 overflow-hidden relative shrink-0">
                   <img 
                     src={destination.image} 
@@ -402,7 +356,6 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Informações do Pacote */}
                 <div className="p-6 flex flex-col flex-grow">
                   <div className="mb-4">
                     <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{destination.title}</h3>
@@ -418,18 +371,12 @@ export default function App() {
                     </div>
                     
                     <div className="flex items-center justify-between">
-                      <div className="flex flex-col">
-                        <span className="text-xs text-gray-500 font-medium">Investimento:</span>
-                        <span className="text-sm font-bold text-green-600 flex items-center gap-1">
-                          <Zap size={14} className="fill-current" /> Sob Medida
-                        </span>
-                      </div>
                       <button 
                         onClick={() => handlePackageClick(destination.title)} 
-                        className="px-5 py-2.5 bg-gray-900 text-white rounded-lg text-sm font-bold hover:bg-blue-600 transition-colors shadow-lg shadow-gray-900/10 flex items-center gap-2"
+                        className="w-full px-5 py-3 bg-gray-900 text-white rounded-lg text-sm font-bold hover:bg-blue-600 transition-colors shadow-lg shadow-gray-900/10 flex items-center justify-center gap-2"
                       >
-                        Solicitar Orçamento
-                        <MessageCircle size={16} /> {/* Ícone de Mensagem */}
+                        Cotar via WhatsApp
+                        <MessageCircle size={16} />
                       </button>
                     </div>
                   </div>
@@ -440,15 +387,17 @@ export default function App() {
         </div>
       </section>
 
-      {/* --- CONTATO E FORMULÁRIO --- */}
+      {/* Feedbacks Section */}
+      <Testimonials />
+
+      {/* Contato Section */}
       <section id="contato" className="py-20 bg-blue-900 text-white relative overflow-hidden">
-        {/* Background blobs decorativos (efeito visual) */}
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-blue-800 opacity-50 blur-3xl"></div>
         <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-blue-600 opacity-30 blur-3xl"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Texto de Apoio e Contatos Diretos */}
+            
             <div>
               <span className="text-blue-300 font-bold tracking-wider text-sm uppercase mb-2 block">ATENDIMENTO PERSONALIZADO</span>
               <h2 className="text-4xl font-bold mb-6">Você sonha, nós viabilizamos!</h2>
@@ -466,7 +415,6 @@ export default function App() {
               </div>
 
               <div className="space-y-6">
-                {/* Botão de WhatsApp direto */}
                 <div 
                   className="flex items-center gap-4 group cursor-pointer"
                   onClick={() => window.open(`https://wa.me/${PHONE_NUMBER}`, '_blank')}
@@ -480,7 +428,6 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Botão de Email direto */}
                 <div 
                   className="flex items-center gap-4 group cursor-pointer"
                   onClick={() => window.location.href = 'mailto:destinobed@outlook.com'}
@@ -496,7 +443,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* O Formulário em si */}
             <div className="bg-white text-gray-900 p-8 rounded-2xl shadow-2xl">
               {formStatus === 'success' ? (
                 <div className="text-center py-12">
@@ -507,55 +453,121 @@ export default function App() {
                   <p className="text-gray-600">Seu WhatsApp deve ter aberto com a mensagem pronta. É só enviar!</p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <h3 className="text-2xl font-bold mb-4">Comece seu Planejamento</h3>
                   
-                  <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Nome</label>
-                    <input 
-                      type="text"
-                      name="nome"
-                      value={formData.nome}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 rounded-lg border-gray-200 bg-gray-50 border focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                      placeholder="Seu nome completo"
-                    />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Nome Completo</label>
+                      <input 
+                        type="text"
+                        name="nome"
+                        value={formData.nome}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full px-4 py-3 rounded-lg border-gray-200 bg-gray-50 border focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                        placeholder="Seu nome"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-gray-500 uppercase mb-1">WhatsApp</label>
+                      <input 
+                        type="tel"
+                        name="whatsapp"
+                        value={formData.whatsapp}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full px-4 py-3 rounded-lg border-gray-200 bg-gray-50 border focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                        placeholder="(DD) 99999-9999"
+                      />
+                    </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">WhatsApp</label>
-                    <input 
-                      type="tel"
-                      name="whatsapp"
-                      value={formData.whatsapp}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 rounded-lg border-gray-200 bg-gray-50 border focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                      placeholder="(DD) 99999-9999"
-                    />
+                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Quantas pessoas vão viajar?</label>
+                    <div className="relative">
+                      <Users className="absolute left-3 top-3.5 text-gray-400" size={18} />
+                      <input 
+                        type="text"
+                        name="pessoas"
+                        value={formData.pessoas}
+                        onChange={handleInputChange}
+                        className="w-full pl-10 pr-4 py-3 rounded-lg border-gray-200 bg-gray-50 border focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                        placeholder="Ex: 2 adultos e 1 criança"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Aeroporto de Saída</label>
+                      <div className="relative">
+                        <Plane className="absolute left-3 top-3.5 text-gray-400" size={18} />
+                        <input 
+                          type="text"
+                          name="origem"
+                          value={formData.origem}
+                          onChange={handleInputChange}
+                          className="w-full pl-10 pr-4 py-3 rounded-lg border-gray-200 bg-gray-50 border focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                          placeholder="Ex: Guarulhos (GRU)"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Qual seu destino?</label>
+                      <div className="relative">
+                        <MapPin className="absolute left-3 top-3.5 text-gray-400" size={18} />
+                        <input 
+                          type="text"
+                          name="destino"
+                          value={formData.destino}
+                          onChange={handleInputChange}
+                          className="w-full pl-10 pr-4 py-3 rounded-lg border-gray-200 bg-gray-50 border focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                          placeholder="Ex: Nordeste ou Europa"
+                        />
+                      </div>
+                    </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Estilo de Viagem</label>
-                    <select 
-                      name="estilo"
-                      value={formData.estilo}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-lg border-gray-200 bg-gray-50 border focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                    >
-                      <option>Quero algo 100% personalizado</option>
-                      <option>Busco oportunidade com preço bom!</option>
-                      <option>Lua de Mel / Ocasião Especial</option>
-                      <option>Ainda não sei, preciso de ajuda</option>
-                    </select>
+                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Datas de Ida e Volta</label>
+                    <div className="relative">
+                      <Calendar className="absolute left-3 top-3.5 text-gray-400" size={18} />
+                      <input 
+                        type="text"
+                        name="datas"
+                        value={formData.datas}
+                        onChange={handleInputChange}
+                        className="w-full pl-10 pr-4 py-3 rounded-lg border-gray-200 bg-gray-50 border focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                        placeholder="Ex: 10/12/2026 a 20/12/2026"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Quando você quer fechar?</label>
+                    <div className="relative">
+                      <Clock className="absolute left-3 top-3.5 text-gray-400" size={18} />
+                      <select 
+                        name="prazo"
+                        value={formData.prazo}
+                        onChange={handleInputChange}
+                        className="w-full pl-10 pr-4 py-3 rounded-lg border-gray-200 bg-gray-50 border focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all appearance-none"
+                      >
+                        <option>Agora (Tenho urgência)</option>
+                        <option>Daqui 1 mês</option>
+                        <option>Só estou cotando</option>
+                      </select>
+                    </div>
                   </div>
                   
                   <div>
                     <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Algum desejo específico?</label>
                     <textarea 
-                      name="desejo"
-                      value={formData.desejo}
+                      name="obs"
+                      value={formData.obs}
                       onChange={handleInputChange}
                       rows={2}
                       className="w-full px-4 py-3 rounded-lg border-gray-200 bg-gray-50 border focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all resize-none"
@@ -570,7 +582,7 @@ export default function App() {
                       formStatus === 'submitting' ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-600/20'
                     }`}
                   >
-                    {formStatus === 'submitting' ? 'Processando...' : 'Solicitar Consultoria Gratuita'}
+                    {formStatus === 'submitting' ? 'Enviando...' : 'Solicitar Cotação Gratuita'}
                   </button>
                 </form>
               )}
@@ -579,7 +591,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* --- RODAPÉ --- */}
+      {/* Footer */}
       <footer className="bg-gray-900 text-gray-400 py-12 border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8 mb-12">
@@ -600,13 +612,12 @@ export default function App() {
             <div>
               <h4 className="text-white font-bold mb-4 uppercase text-sm tracking-wider">Navegue</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="#destinos" onClick={() => setActiveTab('oportunidades')} className="hover:text-blue-500 transition-colors">Oportunidades</a></li>
+                <li><a href="#destinos" className="hover:text-blue-500 transition-colors">Populares</a></li>
                 <li><a href="#metodo" className="hover:text-blue-500 transition-colors">Nosso Método</a></li>
                 <li><a href="#contato" className="hover:text-blue-500 transition-colors">Consultoria</a></li>
               </ul>
             </div>
 
-            {/* Aqui controlamos a troca de telas do Rodapé */}
             <div>
               <h4 className="text-white font-bold mb-4 uppercase text-sm tracking-wider">Suporte</h4>
               <ul className="space-y-2 text-sm">
