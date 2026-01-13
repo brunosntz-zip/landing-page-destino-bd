@@ -76,7 +76,7 @@ const TermsOfUse: React.FC<TermsOfUseProps> = ({ onBack }) => {
 
           <div className="bg-gray-50 p-6 rounded-lg mt-8 border border-gray-200">
             <h4 className="font-bold text-gray-900 mb-2">Dúvidas?</h4>
-            <p className="text-sm">Para questões sobre estes termos, entre em contato através do e-mail <strong>destinobd@outlook.com</strong>.</p>
+            <p className="text-sm">Para questões sobre estes termos, entre em contato através do e-mail <strong>destinobed@outlook.com</strong>.</p>
           </div>
         </div>
         
