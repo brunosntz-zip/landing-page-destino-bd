@@ -4,10 +4,10 @@ import logoBD from './assets/logo-final.png';
 
 // --- IMPORTAÇÃO DAS IMAGENS DOS DESTINOS ---
 import imgMaragogi from './assets/maragogi.jpg';
-import imgNatal from './assets/natal.jpg';           // .jpg
-import imgSanAndres from './assets/sanandres.jpg';   // .jpg
-import imgOrlando from './assets/orlando.jpeg';      // .jpeg
-import imgPortoSeguro from './assets/portoseguro.jpg'; // .jpg
+import imgNatal from './assets/natal.jpg';           
+import imgSanAndres from './assets/sanandres.jpg';   
+import imgOrlando from './assets/orlando.jpeg';      
+import imgPortoSeguro from './assets/portoseguro.jpg'; 
 import imgPuntaCana from './assets/puntacana.jpg';
 
 // -- MINHAS PÁGINAS EXTRAS --
@@ -41,20 +41,18 @@ import {
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [formStatus, setFormStatus] = useState('idle');
+  const [activeTab, setActiveTab] = useState('oportunidades'); 
   const [currentScreen, setCurrentScreen] = useState<'home' | 'privacy' | 'terms' | 'faq'>('home');
 
   // --- O PULO DO GATO: DETECTOR DE URL PARA O INSTAGRAM ---
   useEffect(() => {
-    // Essa função roda assim que o site abre
     const params = new URLSearchParams(window.location.search);
     const pageRequest = params.get('page');
 
-    // Se o link tiver ?page=faq, troca a tela pra FAQ na hora
     if (pageRequest === 'privacy') setCurrentScreen('privacy');
     if (pageRequest === 'terms') setCurrentScreen('terms');
     if (pageRequest === 'faq') setCurrentScreen('faq');
   }, []);
-  // -------------------------------------------------------
 
   // -- DADOS DO FORMULÁRIO DE CAPTURA --
   const [formData, setFormData] = useState({
@@ -77,15 +75,18 @@ export default function App() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // -- CORREÇÃO DO FORMULÁRIO PARA INSTAGRAM --
   const handleSubmit = (e: any) => {
     e.preventDefault();
     setFormStatus('submitting');
 
+    const text = `*Olá, Destino B&D!*\n\nVim pelo formulário do site.\n\n*Nome:* ${formData.nome}\n*WhatsApp:* ${formData.whatsapp}\n*Viajantes:* ${formData.pessoas}\n*Saindo de:* ${formData.origem}\n*Indo para:* ${formData.destino}\n*Datas:* ${formData.datas}\n*Previsão de fechamento:* ${formData.prazo}\n*Obs:* ${formData.obs}`;
+    const url = `https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(text)}`;
+
+    // Reduzi o tempo para 300ms e troquei window.open por window.location.href
+    // Isso força o Instagram a abrir o app do WhatsApp
     setTimeout(() => {
-      const text = `*Olá, Destino B&D!* 👋\n\nVim pelo formulário do site.\n\n*Nome:* ${formData.nome}\n*WhatsApp:* ${formData.whatsapp}\n*Viajantes:* ${formData.pessoas}\n*Saindo de:* ${formData.origem}\n*Indo para:* ${formData.destino}\n*Datas:* ${formData.datas}\n*Previsão de fechamento:* ${formData.prazo}\n*Obs:* ${formData.obs}`;
-      
-      const url = `https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(text)}`;
-      window.open(url, '_blank');
+      window.location.href = url; 
 
       setFormStatus('success');
       setFormData({ 
@@ -99,13 +100,16 @@ export default function App() {
         obs: '' 
       });
       setTimeout(() => setFormStatus('idle'), 3000);
-    }, 1000);
+    }, 300);
   };
 
+  // -- CORREÇÃO DOS BOTÕES DE PACOTE TAMBÉM --
   const handlePackageClick = (destinationTitle: string) => {
     const text = `*Opa!* Gostei do pacote *${destinationTitle}* que vi no site e quero solicitar uma cotação.`;
     const url = `https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(text)}`;
-    window.open(url, '_blank');
+    
+    // Mesma lógica: redirecionamento direto
+    window.location.href = url;
   }
 
   // -- LISTA OFICIAL DE DESTINOS --
@@ -682,7 +686,8 @@ export default function App() {
                <span className="hidden md:block text-gray-700">|</span>
                <p className="font-mono">CNPJ: 58.046.864/0001-24</p>
             </div>
-            <p className="flex items-center gap-1">Desenvolvido com <Heart size={12} className="text-red-500 fill-current" /> por Destino B&D Tech</p>
+            {/* O SEGREDO TÁ AQUI EMBAIXO NO COMPONENTE HEART */}
+            <p className="flex items-center gap-1">Desenvolvido com <Heart size={12} className="text-red-500 fill-current cursor-help" title="Coded by Bruno" /> por Destino B&D Tech</p>
           </div>
         </div>
       </footer>
