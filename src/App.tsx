@@ -41,7 +41,6 @@ import {
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [formStatus, setFormStatus] = useState('idle');
-  const [activeTab, setActiveTab] = useState('oportunidades'); 
   const [currentScreen, setCurrentScreen] = useState<'home' | 'privacy' | 'terms' | 'faq'>('home');
 
   // --- O PULO DO GATO: DETECTOR DE URL PARA O INSTAGRAM ---
@@ -80,11 +79,10 @@ export default function App() {
     e.preventDefault();
     setFormStatus('submitting');
 
-    const text = `*Olá, Destino B&D!*\n\nVim pelo formulário do site.\n\n*Nome:* ${formData.nome}\n*WhatsApp:* ${formData.whatsapp}\n*Viajantes:* ${formData.pessoas}\n*Saindo de:* ${formData.origem}\n*Indo para:* ${formData.destino}\n*Datas:* ${formData.datas}\n*Previsão de fechamento:* ${formData.prazo}\n*Obs:* ${formData.obs}`;
+    const text = `*Olá, Destino B&D!* 👋\n\nVim pelo formulário do site.\n\n*Nome:* ${formData.nome}\n*WhatsApp:* ${formData.whatsapp}\n*Viajantes:* ${formData.pessoas}\n*Saindo de:* ${formData.origem}\n*Indo para:* ${formData.destino}\n*Datas:* ${formData.datas}\n*Previsão de fechamento:* ${formData.prazo}\n*Obs:* ${formData.obs}`;
     const url = `https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(text)}`;
 
     // Reduzi o tempo para 300ms e troquei window.open por window.location.href
-    // Isso força o Instagram a abrir o app do WhatsApp
     setTimeout(() => {
       window.location.href = url; 
 
@@ -687,7 +685,13 @@ export default function App() {
                <p className="font-mono">CNPJ: 58.046.864/0001-24</p>
             </div>
             {/* O SEGREDO TÁ AQUI EMBAIXO NO COMPONENTE HEART */}
-            <p className="flex items-center gap-1">Desenvolvido com <Heart size={12} className="text-red-500 fill-current cursor-help" title="Coded by Bruno" /> por Destino B&D Tech</p>
+            <p className="flex items-center gap-1">
+              Desenvolvido com 
+              <span className="flex items-center cursor-help" title="Coded by Bruno">
+                <Heart size={12} className="text-red-500 fill-current" />
+              </span> 
+              por Destino B&D Tech
+            </p>
           </div>
         </div>
       </footer>
