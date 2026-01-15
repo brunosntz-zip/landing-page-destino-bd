@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Analytics } from "@vercel/analytics/react";
 import logoBD from './assets/logo-final.png';
 
@@ -6,7 +6,7 @@ import logoBD from './assets/logo-final.png';
 import imgMaragogi from './assets/maragogi.jpg';
 import imgNatal from './assets/natal.jpg';           // .jpg
 import imgSanAndres from './assets/sanandres.jpg';   // .jpg
-import imgOrlando from './assets/orlando.jpeg';      // .jpeg (Conforme sua instrução)
+import imgOrlando from './assets/orlando.jpeg';      // .jpeg
 import imgPortoSeguro from './assets/portoseguro.jpg'; // .jpg
 import imgPuntaCana from './assets/puntacana.jpg';
 
@@ -42,6 +42,19 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [formStatus, setFormStatus] = useState('idle');
   const [currentScreen, setCurrentScreen] = useState<'home' | 'privacy' | 'terms' | 'faq'>('home');
+
+  // --- O PULO DO GATO: DETECTOR DE URL PARA O INSTAGRAM ---
+  useEffect(() => {
+    // Essa função roda assim que o site abre
+    const params = new URLSearchParams(window.location.search);
+    const pageRequest = params.get('page');
+
+    // Se o link tiver ?page=faq, troca a tela pra FAQ na hora
+    if (pageRequest === 'privacy') setCurrentScreen('privacy');
+    if (pageRequest === 'terms') setCurrentScreen('terms');
+    if (pageRequest === 'faq') setCurrentScreen('faq');
+  }, []);
+  // -------------------------------------------------------
 
   // -- DADOS DO FORMULÁRIO DE CAPTURA --
   const [formData, setFormData] = useState({

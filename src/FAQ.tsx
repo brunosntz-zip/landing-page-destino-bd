@@ -65,7 +65,7 @@ const FAQ: React.FC<FAQProps> = ({ onBack }) => {
               Quais são as formas de pagamento?
             </h3>
             <p className="text-gray-600 leading-relaxed">
-              Aceitamos PIX e Cartão de Crédito. As transações são processadas por links de pagamento seguros, garantindo a proteção dos seus dados financeiros.
+              Aceitamos PIX, Cartão de Crédito/Débito e Boleto à Vista. As transações são processadas por links de pagamento seguros, garantindo a proteção dos seus dados financeiros.
             </p>
           </div>
 
