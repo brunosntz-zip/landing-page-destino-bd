@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Analytics } from "@vercel/analytics/react";
 import logoBD from './assets/logo-final.png';
 
+// --- IMPORTAÇÃO DAS IMAGENS DOS DESTINOS ---
 import imgMaragogi from './assets/maragogi.jpg';
 import imgNatal from './assets/natal.jpg';           
 import imgSanAndres from './assets/sanandres.jpg';   
@@ -9,6 +10,7 @@ import imgOrlando from './assets/orlando.jpeg';
 import imgPortoSeguro from './assets/portoseguro.jpg'; 
 import imgPuntaCana from './assets/puntacana.jpg';
 
+// -- MINHAS PÁGINAS EXTRAS --
 import PrivacyPolicy from './PrivacyPolicy';
 import TermsOfUse from './TermsOfUse';
 import FAQ from './FAQ';
@@ -41,7 +43,7 @@ export default function App() {
   const [formStatus, setFormStatus] = useState('idle');
   const [currentScreen, setCurrentScreen] = useState<'home' | 'privacy' | 'terms' | 'faq'>('home');
 
-  // URL Detector
+  // --- O PULO DO GATO: DETECTOR DE URL PARA O INSTAGRAM ---
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const pageRequest = params.get('page');
@@ -51,6 +53,7 @@ export default function App() {
     if (pageRequest === 'faq') setCurrentScreen('faq');
   }, []);
 
+  // -- DADOS DO FORMULÁRIO DE CAPTURA --
   const [formData, setFormData] = useState({
     nome: '',
     whatsapp: '',
@@ -71,7 +74,7 @@ export default function App() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // Form Submit Handler
+  // -- CORREÇÃO DO FORMULÁRIO PARA INSTAGRAM --
   const handleSubmit = (e: any) => {
     e.preventDefault();
     setFormStatus('submitting');
@@ -79,6 +82,7 @@ export default function App() {
     const text = `*Olá, Destino B&D!* 👋\n\nVim pelo formulário do site.\n\n*Nome:* ${formData.nome}\n*WhatsApp:* ${formData.whatsapp}\n*Viajantes:* ${formData.pessoas}\n*Saindo de:* ${formData.origem}\n*Indo para:* ${formData.destino}\n*Datas:* ${formData.datas}\n*Previsão de fechamento:* ${formData.prazo}\n*Obs:* ${formData.obs}`;
     const url = `https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(text)}`;
 
+    // Reduzi o tempo para 300ms e troquei window.open por window.location.href
     setTimeout(() => {
       window.location.href = url; 
 
@@ -97,15 +101,16 @@ export default function App() {
     }, 300);
   };
 
-  // Package Click Handler
+  // -- CORREÇÃO DOS BOTÕES DE PACOTE TAMBÉM --
   const handlePackageClick = (destinationTitle: string) => {
     const text = `*Opa!* Gostei do pacote *${destinationTitle}* que vi no site e quero solicitar uma cotação.`;
     const url = `https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(text)}`;
     
+    // Mesma lógica: redirecionamento direto
     window.location.href = url;
   }
 
-  // Destinations Data
+  // -- LISTA OFICIAL DE DESTINOS --
   const destinations = [
     {
       id: 1,
@@ -336,7 +341,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* Destinations Section */}
+      {/* --- SEÇÃO DE DESTINOS (VITRINE ÚNICA - 6 ITENS) --- */}
       <section id="destinos" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center mb-12">
@@ -397,9 +402,10 @@ export default function App() {
         </div>
       </section>
 
+      {/* Feedbacks Section */}
       <Testimonials />
 
-      {/* Contact Section */}
+      {/* Contato Section */}
       <section id="contato" className="py-20 bg-blue-900 text-white relative overflow-hidden">
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-blue-800 opacity-50 blur-3xl"></div>
         <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-blue-600 opacity-30 blur-3xl"></div>
@@ -679,7 +685,7 @@ export default function App() {
                <p className="font-mono">CNPJ: 58.046.864/0001-24</p>
             </div>
             
-            <p className="flex items-center gap-1.5">
+            <p className="flex items-center gap-1.5 md:mr-28 transition-all">
               <span className="opacity-70">coded with</span>
               <Heart size={10} className="text-red-500 fill-current animate-pulse" /> 
               <span className="opacity-70">by</span>
